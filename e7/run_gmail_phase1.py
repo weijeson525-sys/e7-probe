@@ -25,13 +25,52 @@ import os
 import secrets
 import sys
 import time
+import urllib.parse
+import urllib.request
+from copy import deepcopy
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "subscribe"))
 os.chdir(REPO)
 
 import utils  # noqa: E402
-from airport import AirPort  # noqa: E402
+from airport import ANOTHER_API_PREFIX, AirPort  # noqa: E402
+
+
+def verbose_send(ap: AirPort, alias: str, retry: int = 3) -> tuple[bool, str]:
+    """Same POST as AirPort.sen_email_verify, but returns the reason.
+    The alias is redacted from every logged value."""
+    params = {"email": alias.strip()}
+    data = urllib.parse.urlencode(params).encode(encoding="UTF8")
+    headers = deepcopy(ap.headers)
+    headers["Content-Type"] = "application/x-www-form-urlencoded"
+    if ap.api_prefix == ANOTHER_API_PREFIX:
+        headers["Content-Type"] = "application/json"
+        data = json.dumps(params).encode(encoding="UTF8")
+    last = "no_attempt"
+    for _ in range(retry):
+        try:
+            request = urllib.request.Request(ap.send_email, data=data,
+                                             headers=headers, method="POST")
+            response = urllib.request.urlopen(request, timeout=10, context=utils.CTX)
+            status = response.getcode()
+            body = response.read().decode("utf-8", "replace")[:300]
+            body = body.replace(alias, "<alias>")
+            if status != 200:
+                last = f"http_{status}:{body}"
+                continue
+            try:
+                payload = json.loads(body)
+            except Exception:
+                last = f"not_json:{body}"
+                continue
+            if payload.get("data"):
+                return True, "ok"
+            last = f"data_false:{body}"
+        except Exception as e:
+            last = f"exc:{type(e).__name__}:{str(e)[:120].replace(alias, '<alias>')}"
+        time.sleep(1)
+    return False, last
 
 
 def main() -> int:
@@ -75,11 +114,11 @@ def main() -> int:
             ap = AirPort(name=domain, site=domain)
             rr = AirPort.get_register_require(domain, default=False)
             ap.api_prefix = rr.api_prefix or ap.api_prefix
-            ok = ap.sen_email_verify(email=alias, retry=3)
-        except Exception:
-            ok = False
+            ok, why = verbose_send(ap, alias, retry=3)
+        except Exception as e:
+            ok, why = False, f"setup_exc:{type(e).__name__}"
         # Never print the alias.
-        print(f"gmail phase1: {domain} send={'ok' if ok else 'failed'}")
+        print(f"gmail phase1: {domain} send={'ok' if ok else 'failed'} reason={why}")
         if ok:
             pending[domain] = {"site": domain, "tag": tag,
                                "sent_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
