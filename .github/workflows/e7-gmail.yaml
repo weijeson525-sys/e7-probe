@@ -1,0 +1,55 @@
+name: E7 Gmail Verify
+on:
+  workflow_dispatch:
+    inputs:
+      gmail_user:
+        description: "Gmail address for +suffix registration (never logged or stored)"
+        required: true
+      mode:
+        description: "phase1 (send codes) or phase2 (register with codes)"
+        required: true
+        default: "phase1"
+      limit:
+        description: "Max code candidates for phase1"
+        required: false
+        default: "1"
+      codes_json:
+        description: "JSON {site: code} for phase2 (single-use codes, never stored)"
+        required: false
+        default: "{}"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e7-gmail
+  cancel-in-progress: true
+
+jobs:
+  gmail:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Phase 1 send codes
+        if: github.event.inputs.mode == 'phase1'
+        env:
+          GMAIL_USER: ${{ github.event.inputs.gmail_user }}
+        run: python e7/run_gmail_phase1.py --limit ${{ github.event.inputs.limit }}
+      - name: Phase 2 register with codes
+        if: github.event.inputs.mode == 'phase2'
+        env:
+          GMAIL_USER: ${{ github.event.inputs.gmail_user }}
+          CODES_JSON: ${{ github.event.inputs.codes_json }}
+        run: python e7/run_gmail_phase2.py
+      - name: Commit results
+        run: |
+          git config user.name "e7-bot"
+          git config user.email "e7-bot@users.noreply.github.com"
+          git add e7-results/
+          git diff --cached --quiet || git commit -m "e7 gmail ${{ github.event.inputs.mode }} $(date -u +%Y-%m-%d)"
+          git push
