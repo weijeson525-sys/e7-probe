@@ -13,6 +13,10 @@ on:
         description: "Max code candidates for phase1"
         required: false
         default: "1"
+      sites:
+        description: "Comma-separated sites for phase1 retest (empty = next candidates)"
+        required: false
+        default: ""
       codes_json:
         description: "JSON {site: code} for phase2 (single-use codes, never stored)"
         required: false
@@ -39,7 +43,7 @@ jobs:
         if: github.event.inputs.mode == 'phase1'
         env:
           GMAIL_USER: ${{ github.event.inputs.gmail_user }}
-        run: python e7/run_gmail_phase1.py --limit ${{ github.event.inputs.limit }}
+        run: python e7/run_gmail_phase1.py --limit ${{ github.event.inputs.limit }} --sites "${{ github.event.inputs.sites }}"
       - name: Phase 2 register with codes
         if: github.event.inputs.mode == 'phase2'
         env:
