@@ -27,6 +27,7 @@ import json
 import logging
 import os
 import secrets
+import string
 import sys
 import time
 import urllib.parse
@@ -94,7 +95,12 @@ def canary(ap: AirPort, alias: str, code: str | None) -> str:
         return f"exc:{type(e).__name__}:{str(e)[:150]}"
 
 
-def verify_site(domain: str, alias: str, code: str | None) -> dict:
+def make_password() -> str:
+    """Panel-safe password: 12 chars, letters+digits only. The upstream
+    generator uses string.punctuation (incl. & = + % " ' \\) and some
+    panels reject those with a 422; this rules that cause out."""
+    alphabet = string.ascii_letters + string.digits
+    return "".join(secrets.choice(alphabet) for _ in range(12))
     started = time.time()
     rec = {"domain": domain, "mail": "gmail", "registered": False,
            "free_plan": None, "sub_present": False, "nodes_total": 0,
@@ -104,7 +110,7 @@ def verify_site(domain: str, alias: str, code: str | None) -> dict:
         rr = AirPort.get_register_require(domain, default=False)
         ap.api_prefix = rr.api_prefix or ap.api_prefix
         print(f"gmail phase2 canary: {domain} {canary(ap, alias, code)}", flush=True)
-        cookies, auth = ap.register(email=alias, password=None,
+        cookies, auth = ap.register(email=alias, password=make_password(),
                                     email_code=code, retry=2)
         subs = []
         try:
