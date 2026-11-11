@@ -138,8 +138,15 @@ def verbose_register(ap: AirPort, alias: str, password: str,
                 return "", ""
             print(f"gmail phase2 register: {ap.ref} http_200 data_keys={sorted(payload.keys())}",
                   flush=True)
+            auth_data = payload.get("auth_data")
+            if isinstance(auth_data, dict):
+                print(f"gmail phase2 register: {ap.ref} auth_data_keys={sorted(auth_data.keys())}",
+                      flush=True)
             token = payload.get("token", "")
             authorization = payload.get("auth", "")
+            if not authorization and isinstance(auth_data, dict):
+                # Some panels return the session token inside auth_data.
+                authorization = auth_data.get("auth", "") or auth_data.get("token", "")
             ap.username = alias
             ap.password = password
             ap.order_plan(email=alias, password=password, cookies=cookies,
@@ -258,7 +265,8 @@ def main() -> int:
         if not tag:
             print(f"gmail phase2: {site} has no pending tag, skipped")
             continue
-        jobs.append((site, f"{local}+{tag}@gmail.com", str(code).strip()))
+        alias = f"{local}@gmail.com" if tag == "bare" else f"{local}+{tag}@gmail.com"
+        jobs.append((site, alias, str(code).strip()))
     for domain, rec in records.items():
         if rec.get("config_ok") and rec.get("verify") is False:
             tag = secrets.token_hex(4)

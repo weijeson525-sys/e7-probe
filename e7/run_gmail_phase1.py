@@ -128,15 +128,31 @@ def main() -> int:
         except Exception:
             pending = {}
     todo = [d for d in candidates if d not in pending][:limit]
+    bare_sites: set = set()
     if sites_arg:
         # Explicit retest: resend to exactly these sites, ignoring pending.
-        todo = [d.strip() for d in sites_arg.split(",") if d.strip()]
+        # A "bare:" prefix means the panel rejects Gmail aliases: send to
+        # the bare address (no +suffix) and store tag "bare".
+        todo = []
+        bare_sites = set()
+        for d in sites_arg.split(","):
+            d = d.strip()
+            if not d:
+                continue
+            if d.startswith("bare:"):
+                d = d[5:]
+                bare_sites.add(d)
+            todo.append(d)
         todo = [d for d in todo if d in candidates]
     print(f"gmail phase1: {len(candidates)} gmail candidates, {len(todo)} to send")
     sent = 0
     for domain in todo:
-        tag = secrets.token_hex(4)
-        alias = f"{local}+{tag}@gmail.com"
+        if domain in bare_sites:
+            tag = "bare"
+            alias = f"{local}@gmail.com"
+        else:
+            tag = secrets.token_hex(4)
+            alias = f"{local}+{tag}@gmail.com"
         try:
             ap = AirPort(name=domain, site=to_ascii_site(domain))
             rr = AirPort.get_register_require(domain, default=False)
