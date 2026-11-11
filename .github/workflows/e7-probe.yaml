@@ -24,6 +24,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run round (read-only discovery + config gate)
         run: python e7/run_round.py
+      - name: Verify candidates (register + free plan + nodes)
+        run: python e7/run_verify.py
       - name: Commit results
         run: |
           git config user.name "e7-bot"
