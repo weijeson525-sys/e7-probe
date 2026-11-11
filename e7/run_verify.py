@@ -45,7 +45,7 @@ import airport  # noqa: E402
 import renewal  # noqa: E402
 import utils  # noqa: E402
 
-logging.getLogger().setLevel(logging.WARNING)
+logging.getLogger().setLevel(logging.INFO)
 
 SCHEMES = (
     "vmess://",
@@ -133,9 +133,11 @@ RETRY_REASONS = {"register_failed", "sub_fetch_empty"}
 
 def diag_emailnator() -> dict:
     """Runner-side reachability check for the mail path. No account is
-    created here; plain GET, status only. Distinguishes 'mail path dead'
-    from 'airport panel dead'."""
-    diag = {"reachable": False, "status": None, "error": None}
+    created here; plain GET, status + header inspection only.
+    Distinguishes 'mail path dead' from 'airport panel dead'."""
+    diag = {"reachable": False, "status": None, "error": None,
+            "set_cookie_count": 0, "xsrf_in_headers": False,
+            "challenge_markers": []}
     try:
         req = urllib.request.Request(
             url="https://www.emailnator.com",
@@ -144,6 +146,21 @@ def diag_emailnator() -> dict:
         with urllib.request.urlopen(req, timeout=10, context=utils.CTX) as resp:
             diag["status"] = resp.getcode()
             diag["reachable"] = resp.getcode() == 200
+            try:
+                raw_cookies = resp.headers.get_all("Set-Cookie") or []
+            except Exception:
+                raw_cookies = []
+            diag["set_cookie_count"] = len(raw_cookies)
+            joined = "; ".join(raw_cookies)
+            diag["xsrf_in_headers"] = "XSRF-TOKEN=" in joined
+            try:
+                body = resp.read(4096).decode("utf-8", errors="ignore").lower()
+            except Exception:
+                body = ""
+            for marker in ("challenge", "just a moment", "cf-chl", "turnstile",
+                           "captcha", "checking your browser"):
+                if marker in body:
+                    diag["challenge_markers"].append(marker)
     except urllib.error.HTTPError as e:
         diag["status"] = e.code
         diag["error"] = f"HTTPError:{e.code}"
@@ -215,7 +232,8 @@ def main() -> int:
     src_path = os.path.join(REPO, "e7-results", f"{date}.json")
     out_path = os.path.join(REPO, "e7-results", f"{date}-verify.json")
     diag = diag_emailnator()
-    print(f"verify: emailnator diag reachable={diag['reachable']} status={diag['status']} error={diag['error']}")
+    print(f"verify: emailnator diag reachable={diag['reachable']} status={diag['status']} error={diag['error']} "
+          f"set_cookie={diag['set_cookie_count']} xsrf={diag['xsrf_in_headers']} challenge={diag['challenge_markers']}")
     old_sites = {}
     if os.path.exists(out_path):
         try:
