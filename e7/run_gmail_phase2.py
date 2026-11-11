@@ -142,11 +142,19 @@ def verbose_register(ap: AirPort, alias: str, password: str,
             if isinstance(auth_data, dict):
                 print(f"gmail phase2 register: {ap.ref} auth_data_keys={sorted(auth_data.keys())}",
                       flush=True)
+            else:
+                print(f"gmail phase2 register: {ap.ref} auth_data_type={type(auth_data).__name__}"
+                      + (f" len={len(auth_data)}" if isinstance(auth_data, str) else ""),
+                      flush=True)
             token = payload.get("token", "")
             authorization = payload.get("auth", "")
             if not authorization and isinstance(auth_data, dict):
                 # Some panels return the session token inside auth_data.
                 authorization = auth_data.get("auth", "") or auth_data.get("token", "")
+            if not authorization and isinstance(auth_data, str) and auth_data:
+                # This panel family returns the session token as a plain
+                # string in auth_data (no "auth" field, no Set-Cookie).
+                authorization = auth_data
             ap.username = alias
             ap.password = password
             ap.order_plan(email=alias, password=password, cookies=cookies,
