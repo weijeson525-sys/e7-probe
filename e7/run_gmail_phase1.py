@@ -97,11 +97,17 @@ def main() -> int:
         return 2
     local = gmail_user.split("@")[0]
     limit = 3
+    sites_arg = ""
     if "--limit" in sys.argv:
         try:
             limit = int(sys.argv[sys.argv.index("--limit") + 1])
         except Exception:
             pass
+    if "--sites" in sys.argv:
+        try:
+            sites_arg = sys.argv[sys.argv.index("--sites") + 1].strip()
+        except Exception:
+            sites_arg = ""
     date = time.strftime("%Y-%m-%d", time.gmtime())
     src_path = os.path.join(REPO, "e7-results", f"{date}.json")
     if not os.path.exists(src_path):
@@ -122,6 +128,10 @@ def main() -> int:
         except Exception:
             pending = {}
     todo = [d for d in candidates if d not in pending][:limit]
+    if sites_arg:
+        # Explicit retest: resend to exactly these sites, ignoring pending.
+        todo = [d.strip() for d in sites_arg.split(",") if d.strip()]
+        todo = [d for d in todo if d in candidates]
     print(f"gmail phase1: {len(candidates)} gmail candidates, {len(todo)} to send")
     sent = 0
     for domain in todo:
