@@ -1,12 +1,15 @@
 {
   "date": "2026-11-11",
-  "verified_at": "2026-11-11T15:40:01Z",
-  "total_candidates": 13,
+  "verified_at": "2026-11-11T15:53:52Z",
+  "total_candidates": 14,
   "usable_nodes": 0,
   "emailnator_diag": {
     "reachable": true,
     "status": 200,
-    "error": null
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
   },
   "sites": [
     {
@@ -17,7 +20,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 0.6
+      "duration_s": 0.3
     },
     {
       "domain": "https://a1.lcjx03.sbs",
@@ -27,7 +30,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 1.9
+      "duration_s": 11.6
     },
     {
       "domain": "https://便宜机场.co",
@@ -37,7 +40,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 0.7
+      "duration_s": 0.8
     },
     {
       "domain": "https://portal.dsocks.uk",
@@ -47,7 +50,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 0.6
+      "duration_s": 0.5
     },
     {
       "domain": "https://dash.marsix.net",
@@ -57,7 +60,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 0.6
+      "duration_s": 0.5
     },
     {
       "domain": "https://portal.taronet.uk",
@@ -67,7 +70,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 0.5
+      "duration_s": 0.6
     },
     {
       "domain": "https://dt666.xyz",
@@ -77,7 +80,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 0.5
+      "duration_s": 0.4
     },
     {
       "domain": "https://new.crosswall.dpdns.org",
@@ -87,7 +90,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 0.6
+      "duration_s": 0.4
     },
     {
       "domain": "https://gz-cloud.top",
@@ -97,7 +100,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 0.4
+      "duration_s": 0.2
     },
     {
       "domain": "https://白嫖云.top",
@@ -137,7 +140,17 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 2.1
+      "duration_s": 125.0
+    },
+    {
+      "domain": "https://seele.upnc.cn",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 3.9
     }
   ]
 }
