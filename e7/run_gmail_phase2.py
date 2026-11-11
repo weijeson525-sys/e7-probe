@@ -29,6 +29,9 @@ import os
 import secrets
 import sys
 import time
+import urllib.parse
+import urllib.request
+from copy import deepcopy
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 E7 = os.path.join(REPO, "e7")
@@ -38,10 +41,57 @@ os.chdir(REPO)
 
 import renewal  # noqa: E402
 import utils  # noqa: E402
-from airport import AirPort  # noqa: E402
+from airport import ANOTHER_API_PREFIX, AirPort  # noqa: E402
 from run_verify import parse_nodes, probe_nodes  # noqa: E402
 
 logging.getLogger().setLevel(logging.INFO)
+
+
+def to_ascii_site(domain: str) -> str:
+    """IDNA-encode a non-ASCII host (e.g. 便宜机场.co) so urllib can use it.
+    The record domain stays as-is; only the request URL is punycoded."""
+    try:
+        parts = urllib.parse.urlsplit(domain)
+        host = parts.hostname or ""
+        if any(ord(c) > 127 for c in host):
+            ascii_host = host.encode("idna").decode("ascii")
+            netloc = ascii_host
+            if parts.port:
+                netloc += f":{parts.port}"
+            return urllib.parse.urlunsplit(
+                (parts.scheme, netloc, parts.path, parts.query, parts.fragment))
+    except Exception:
+        pass
+    return domain
+
+
+def canary(ap: AirPort, alias: str, code: str | None) -> str:
+    """Deliberately failing POST to the register endpoint. Never creates
+    an account (wrong code / invalid email are rejected by validation);
+    it only reveals the endpoint's raw response. Alias and password are
+    redacted from the log."""
+    if code is not None:
+        email = f"{alias.split('@')[0]}+diag{secrets.token_hex(2)}@{alias.split('@')[1]}"
+        email_code = "000000"
+    else:
+        email = "not-an-email"
+        email_code = ""
+    params = {"email": email, "password": "DiagPass1234!x",
+              "invite_code": "", "email_code": email_code}
+    data = urllib.parse.urlencode(params).encode(encoding="UTF8")
+    headers = deepcopy(ap.headers)
+    headers["Content-Type"] = "application/x-www-form-urlencoded"
+    if ap.api_prefix == ANOTHER_API_PREFIX:
+        headers["Content-Type"] = "application/json"
+        data = json.dumps(params).encode(encoding="UTF8")
+    try:
+        request = urllib.request.Request(ap.reg, data=data, headers=headers, method="POST")
+        response = urllib.request.urlopen(request, timeout=10, context=utils.CTX)
+        body = response.read().decode("utf-8", "replace")[:200]
+        body = body.replace(email, "<email>").replace("DiagPass1234!x", "<pass>")
+        return f"http_{response.getcode()}:{body}"
+    except Exception as e:
+        return f"exc:{type(e).__name__}:{str(e)[:150]}"
 
 
 def verify_site(domain: str, alias: str, code: str | None) -> dict:
@@ -50,9 +100,10 @@ def verify_site(domain: str, alias: str, code: str | None) -> dict:
            "free_plan": None, "sub_present": False, "nodes_total": 0,
            "nodes_reachable": 0, "reason": ""}
     try:
-        ap = AirPort(name=domain, site=domain)
+        ap = AirPort(name=domain, site=to_ascii_site(domain))
         rr = AirPort.get_register_require(domain, default=False)
         ap.api_prefix = rr.api_prefix or ap.api_prefix
+        print(f"gmail phase2 canary: {domain} {canary(ap, alias, code)}", flush=True)
         cookies, auth = ap.register(email=alias, password=None,
                                     email_code=code, retry=2)
         subs = []

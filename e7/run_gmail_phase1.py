@@ -37,6 +37,23 @@ import utils  # noqa: E402
 from airport import ANOTHER_API_PREFIX, AirPort  # noqa: E402
 
 
+def to_ascii_site(domain: str) -> str:
+    """IDNA-encode a non-ASCII host so urllib can use it."""
+    try:
+        parts = urllib.parse.urlsplit(domain)
+        host = parts.hostname or ""
+        if any(ord(c) > 127 for c in host):
+            ascii_host = host.encode("idna").decode("ascii")
+            netloc = ascii_host
+            if parts.port:
+                netloc += f":{parts.port}"
+            return urllib.parse.urlunsplit(
+                (parts.scheme, netloc, parts.path, parts.query, parts.fragment))
+    except Exception:
+        pass
+    return domain
+
+
 def verbose_send(ap: AirPort, alias: str, retry: int = 3) -> tuple[bool, str]:
     """Same POST as AirPort.sen_email_verify, but returns the reason.
     The alias is redacted from every logged value."""
@@ -111,7 +128,7 @@ def main() -> int:
         tag = secrets.token_hex(4)
         alias = f"{local}+{tag}@gmail.com"
         try:
-            ap = AirPort(name=domain, site=domain)
+            ap = AirPort(name=domain, site=to_ascii_site(domain))
             rr = AirPort.get_register_require(domain, default=False)
             ap.api_prefix = rr.api_prefix or ap.api_prefix
             ok, why = verbose_send(ap, alias, retry=3)
