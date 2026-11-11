@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "verified_at": "2026-11-11T16:51:36Z",
+  "verified_at": "2026-11-11T16:56:41Z",
   "total_candidates": 14,
   "usable_nodes": 0,
   "emailnator_diag": {
@@ -82,7 +82,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "sub_fetch_empty",
-      "duration_s": 0.5
+      "duration_s": 2.3
     },
     {
       "domain": "https://new.crosswall.dpdns.org",
@@ -93,7 +93,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 4.3
+      "duration_s": 4.6
     },
     {
       "domain": "https://gz-cloud.top",
@@ -104,7 +104,7 @@
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 3.5
+      "duration_s": 3.8
     },
     {
       "domain": "https://白嫖云.top",
@@ -149,13 +149,13 @@
     {
       "domain": "https://seele.upnc.cn",
       "mail": "gmail",
-      "registered": true,
-      "free_plan": false,
-      "sub_present": true,
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
       "nodes_total": 0,
       "nodes_reachable": 0,
-      "reason": "sub_fetch_empty",
-      "duration_s": 0.7
+      "reason": "register_failed",
+      "duration_s": 4.1
     }
   ]
 }
