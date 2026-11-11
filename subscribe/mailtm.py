@@ -660,13 +660,33 @@ class Emailnator(TemporaryMail):
 
     def _get_xsrf_token(self, retry: int = 3) -> tuple[str, str]:
         cookies, xsrf_token, count = "", "", 1
-        while not cookies and count <= retry:
+        # E7 fix (REG-53): loop until the XSRF token itself is found, not
+        # merely until some cookie string is non-empty -- the joined
+        # cookie string is almost always non-empty even when XSRF is absent.
+        while not xsrf_token and count <= retry:
             count += 1
             try:
                 request = urllib.request.Request(url=self.api_address, headers=self.headers)
                 response = urllib.request.urlopen(request, timeout=10, context=utils.CTX)
 
-                cookies = response.getheader("Set-Cookie")
+                # E7 fix (REG-53, 2026-11-11): getheader("Set-Cookie") returns
+                # only the FIRST Set-Cookie header, but the server sends
+                # several and XSRF-TOKEN is not always first -- the plain
+                # GET returns 200 while this function fails 3/3. Collect
+                # ALL Set-Cookie headers instead.
+                try:
+                    raw_cookies = response.headers.get_all("Set-Cookie") or []
+                except Exception:
+                    raw_cookies = []
+                if not raw_cookies:
+                    single = response.getheader("Set-Cookie") or ""
+                    raw_cookies = [single] if single else []
+                joined = "; ".join(raw_cookies) + ";"
+                logger.info(
+                    f"[EmailnatorDiag] set-cookie headers: {len(raw_cookies)}, "
+                    f"xsrf present: {'XSRF-TOKEN=' in joined}"
+                )
+                cookies = joined
                 groups = re.findall("XSRF-TOKEN=(.+?);", cookies)
                 xsrf_token = groups[0] if groups else ""
                 xsrf_token = urllib.parse.unquote(xsrf_token, encoding="utf8", errors="replace")
