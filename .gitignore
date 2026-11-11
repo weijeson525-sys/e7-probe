@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.log
+e7/discovery-data/
+.DS_Store
