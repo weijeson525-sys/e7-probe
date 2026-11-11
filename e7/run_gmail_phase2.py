@@ -91,6 +91,13 @@ def canary(ap: AirPort, alias: str, code: str | None) -> str:
         body = response.read().decode("utf-8", "replace")[:200]
         body = body.replace(email, "<email>").replace("DiagPass1234!x", "<pass>")
         return f"http_{response.getcode()}:{body}"
+    except urllib.error.HTTPError as e:
+        try:
+            body = e.read().decode("utf-8", "replace")[:200]
+        except Exception:
+            body = ""
+        body = body.replace(email, "<email>").replace("DiagPass1234!x", "<pass>")
+        return f"http_{e.code}:{body}"
     except Exception as e:
         return f"exc:{type(e).__name__}:{str(e)[:150]}"
 
@@ -103,6 +110,68 @@ def make_password() -> str:
     return "".join(secrets.choice(alphabet) for _ in range(12))
 
 
+def verbose_register(ap: AirPort, alias: str, password: str,
+                     code: str | None) -> tuple[str, str]:
+    """Same steps as AirPort.register, but logs the real outcome at each
+    point (status / panel message / data keys). Password, alias and code
+    are redacted from every logged value."""
+    params = {"email": alias, "password": password,
+              "invite_code": "", "email_code": utils.trim(code)}
+    data = urllib.parse.urlencode(params).encode(encoding="UTF8")
+    headers = deepcopy(ap.headers)
+    headers["Content-Type"] = "application/x-www-form-urlencoded"
+    if ap.api_prefix == ANOTHER_API_PREFIX:
+        headers["Content-Type"] = "application/json"
+        data = json.dumps(params).encode(encoding="UTF8")
+    for attempt in range(3):
+        try:
+            request = urllib.request.Request(ap.reg, data=data, headers=headers, method="POST")
+            response = urllib.request.urlopen(request, timeout=10, context=utils.CTX)
+            status = response.getcode()
+            if status != 200:
+                print(f"gmail phase2 register: {ap.ref} http_{status}", flush=True)
+                return "", ""
+            cookies = utils.extract_cookie(response.getheader("Set-Cookie"))
+            payload = json.loads(response.read()).get("data", {})
+            if not isinstance(payload, dict):
+                print(f"gmail phase2 register: {ap.ref} data_not_dict", flush=True)
+                return "", ""
+            print(f"gmail phase2 register: {ap.ref} http_200 data_keys={sorted(payload.keys())}",
+                  flush=True)
+            token = payload.get("token", "")
+            authorization = payload.get("auth", "")
+            ap.username = alias
+            ap.password = password
+            ap.order_plan(email=alias, password=password, cookies=cookies,
+                          authorization=authorization)
+            subscribe_info = renewal.get_subscribe_info(
+                domain=ap.ref, cookies=cookies, authorization=authorization,
+                api_prefix=ap.api_prefix)
+            if subscribe_info:
+                ap.nodes.subscribe = subscribe_info.sub_url
+            if not ap.nodes.subscribe_list():
+                if token:
+                    ap.nodes.subscribe = f"{ap.ref}/api/v1/client/subscribe?token=<redacted>"
+                else:
+                    print(f"gmail phase2 register: {ap.ref} no_token_no_sub", flush=True)
+            return cookies, authorization
+        except urllib.error.HTTPError as e:
+            try:
+                body = e.read().decode("utf-8", "replace")[:200]
+            except Exception:
+                body = ""
+            for secret in (alias, password, code or ""):
+                if secret:
+                    body = body.replace(secret, "<redacted>")
+            print(f"gmail phase2 register: {ap.ref} http_{e.code}:{body}", flush=True)
+        except Exception as e:
+            print(f"gmail phase2 register: {ap.ref} exc:{type(e).__name__}:{str(e)[:120]}",
+                  flush=True)
+        time.sleep(1)
+    print(f"gmail phase2 register: {ap.ref} max_retry", flush=True)
+    return "", ""
+
+
 def verify_site(domain: str, alias: str, code: str | None) -> dict:
     started = time.time()
     rec = {"domain": domain, "mail": "gmail", "registered": False,
@@ -113,8 +182,7 @@ def verify_site(domain: str, alias: str, code: str | None) -> dict:
         rr = AirPort.get_register_require(domain, default=False)
         ap.api_prefix = rr.api_prefix or ap.api_prefix
         print(f"gmail phase2 canary: {domain} {canary(ap, alias, code)}", flush=True)
-        cookies, auth = ap.register(email=alias, password=make_password(),
-                                    email_code=code, retry=2)
+        cookies, auth = verbose_register(ap, alias, make_password(), code)
         subs = []
         try:
             subs = ap.nodes.subscribe_list() or []
