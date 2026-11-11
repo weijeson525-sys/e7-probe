@@ -101,6 +101,9 @@ def make_password() -> str:
     panels reject those with a 422; this rules that cause out."""
     alphabet = string.ascii_letters + string.digits
     return "".join(secrets.choice(alphabet) for _ in range(12))
+
+
+def verify_site(domain: str, alias: str, code: str | None) -> dict:
     started = time.time()
     rec = {"domain": domain, "mail": "gmail", "registered": False,
            "free_plan": None, "sub_present": False, "nodes_total": 0,
