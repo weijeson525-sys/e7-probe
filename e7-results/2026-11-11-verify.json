@@ -1,8 +1,13 @@
 {
   "date": "2026-11-11",
-  "verified_at": "2026-11-11T15:31:21Z",
-  "total_candidates": 1,
+  "verified_at": "2026-11-11T15:37:00Z",
+  "total_candidates": 9,
   "usable_nodes": 0,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null
+  },
   "sites": [
     {
       "domain": "https://dash.henet.uk",
@@ -13,6 +18,86 @@
       "nodes_reachable": 0,
       "reason": "register_failed",
       "duration_s": 0.6
+    },
+    {
+      "domain": "https://a1.lcjx03.sbs",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.5
+    },
+    {
+      "domain": "https://便宜机场.co",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.3
+    },
+    {
+      "domain": "https://portal.dsocks.uk",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.5
+    },
+    {
+      "domain": "https://dash.marsix.net",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.6
+    },
+    {
+      "domain": "https://portal.taronet.uk",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.6
+    },
+    {
+      "domain": "https://dt666.xyz",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.5
+    },
+    {
+      "domain": "https://new.crosswall.dpdns.org",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.5
+    },
+    {
+      "domain": "https://gz-cloud.top",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.4
     }
   ]
 }
