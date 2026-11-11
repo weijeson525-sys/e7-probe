@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "verified_at": "2026-11-11T15:53:52Z",
+  "verified_at": "2026-11-11T16:27:01Z",
   "total_candidates": 14,
   "usable_nodes": 0,
   "emailnator_diag": {
@@ -24,13 +24,14 @@
     },
     {
       "domain": "https://a1.lcjx03.sbs",
+      "mail": "gmail",
       "registered": false,
       "free_plan": null,
       "sub_present": false,
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 11.6
+      "duration_s": 3.1
     },
     {
       "domain": "https://便宜机场.co",
@@ -74,16 +75,29 @@
     },
     {
       "domain": "https://dt666.xyz",
+      "mail": "gmail",
       "registered": false,
       "free_plan": null,
       "sub_present": false,
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 0.4
+      "duration_s": 0.7
     },
     {
       "domain": "https://new.crosswall.dpdns.org",
+      "mail": "gmail",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.6
+    },
+    {
+      "domain": "https://gz-cloud.top",
+      "mail": "gmail",
       "registered": false,
       "free_plan": null,
       "sub_present": false,
@@ -91,16 +105,6 @@
       "nodes_reachable": 0,
       "reason": "register_failed",
       "duration_s": 0.4
-    },
-    {
-      "domain": "https://gz-cloud.top",
-      "registered": false,
-      "free_plan": null,
-      "sub_present": false,
-      "nodes_total": 0,
-      "nodes_reachable": 0,
-      "reason": "register_failed",
-      "duration_s": 0.2
     },
     {
       "domain": "https://白嫖云.top",
@@ -144,13 +148,14 @@
     },
     {
       "domain": "https://seele.upnc.cn",
+      "mail": "gmail",
       "registered": false,
       "free_plan": null,
       "sub_present": false,
       "nodes_total": 0,
       "nodes_reachable": 0,
       "reason": "register_failed",
-      "duration_s": 3.9
+      "duration_s": 1.0
     }
   ]
 }
