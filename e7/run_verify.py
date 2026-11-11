@@ -11,6 +11,11 @@ wzdnzd/aggregator code (Apache-2.0):
 Output: e7-results/<date>-verify.json with ONLY safe fields
 (domain, booleans, counts, reason). NEVER writes: email addresses,
 passwords, cookies, auth tokens, subscription URLs, or node URIs.
+Same-date runs accumulate: sites already verified with a terminal
+outcome are kept; transient failures (register_failed, sub_fetch_empty,
+error:*) are retried. The file also carries an "emailnator_diag" entry:
+a plain GET to https://www.emailnator.com from the runner, so a dead
+mail path can be told apart from a dead airport panel.
 Public-repo rule: the runner log is public, so this script prints no
 credentials either (upstream error logs may include a one-time 6-digit
 verification code for a throwaway temp account if mask extraction fails;
@@ -28,7 +33,9 @@ import re
 import socket
 import sys
 import time
+import urllib.error
 import urllib.parse
+import urllib.request
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "subscribe"))
@@ -121,6 +128,30 @@ def probe_nodes(uris: list[str]) -> int:
     return reachable
 
 
+RETRY_REASONS = {"register_failed", "sub_fetch_empty"}
+
+
+def diag_emailnator() -> dict:
+    """Runner-side reachability check for the mail path. No account is
+    created here; plain GET, status only. Distinguishes 'mail path dead'
+    from 'airport panel dead'."""
+    diag = {"reachable": False, "status": None, "error": None}
+    try:
+        req = urllib.request.Request(
+            url="https://www.emailnator.com",
+            headers={"User-Agent": utils.USER_AGENT},
+        )
+        with urllib.request.urlopen(req, timeout=10, context=utils.CTX) as resp:
+            diag["status"] = resp.getcode()
+            diag["reachable"] = resp.getcode() == 200
+    except urllib.error.HTTPError as e:
+        diag["status"] = e.code
+        diag["error"] = f"HTTPError:{e.code}"
+    except Exception as e:
+        diag["error"] = type(e).__name__
+    return diag
+
+
 def verify_one(domain: str) -> dict:
     """Verify one candidate. Returns only safe fields."""
     started = time.time()
@@ -182,24 +213,44 @@ def verify_one(domain: str) -> dict:
 def main() -> int:
     date = sys.argv[1] if len(sys.argv) > 1 else time.strftime("%Y-%m-%d", time.gmtime())
     src_path = os.path.join(REPO, "e7-results", f"{date}.json")
+    out_path = os.path.join(REPO, "e7-results", f"{date}-verify.json")
+    diag = diag_emailnator()
+    print(f"verify: emailnator diag reachable={diag['reachable']} status={diag['status']} error={diag['error']}")
+    old_sites = {}
+    if os.path.exists(out_path):
+        try:
+            with open(out_path, encoding="utf-8") as f:
+                old_sites = {s["domain"]: s for s in json.load(f).get("sites", [])}
+        except Exception:
+            old_sites = {}
     if not os.path.exists(src_path):
         print(f"verify: no results file {src_path}, nothing to verify")
         result = {"date": date, "verified_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                  "total_candidates": 0, "usable_nodes": 0, "sites": []}
+                  "total_candidates": 0, "usable_nodes": 0, "emailnator_diag": diag, "sites": []}
     else:
         with open(src_path, encoding="utf-8") as f:
             src = json.load(f)
         candidates = src.get("candidates", []) or []
-        print(f"verify: {len(candidates)} candidates from {date}")
-        sites = [verify_one(c) for c in candidates]
+        to_verify = [c for c in candidates
+                     if c not in old_sites
+                     or old_sites[c].get("reason") in RETRY_REASONS
+                     or str(old_sites[c].get("reason", "")).startswith("error:")]
+        print(f"verify: {len(candidates)} candidates from {date}, "
+              f"{len(to_verify)} to verify ({len(old_sites)} already on file)")
+        new_sites = [verify_one(c) for c in to_verify]
+        merged = dict(old_sites)
+        for s in new_sites:
+            merged[s["domain"]] = s
+        sites = [merged[d] for d in list(dict.fromkeys(
+            list(old_sites.keys()) + [s["domain"] for s in new_sites]))]
         usable = sum(s["nodes_reachable"] for s in sites)
         result = {"date": date, "verified_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                  "total_candidates": len(candidates), "usable_nodes": usable, "sites": sites}
+                  "total_candidates": len(candidates), "usable_nodes": usable,
+                  "emailnator_diag": diag, "sites": sites}
         for s in sites:
             print(f"verify: {s['domain']} registered={s['registered']} free_plan={s['free_plan']} "
                   f"nodes={s['nodes_total']} reachable={s['nodes_reachable']} reason={s['reason']}")
         print(f"verify done: {len(candidates)} candidates, {usable} usable nodes")
-    out_path = os.path.join(REPO, "e7-results", f"{date}-verify.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
     print(f"verify: wrote {out_path}")

@@ -17,11 +17,15 @@ Classification (same rules as the local E7 rounds):
   invite_force / recaptcha / whitelist_verify -- validator-blocked reasons
   blocked_429 / blocked_403 -- rate-limited / blocked, station skipped
 
-Stations classified config_ok are CANDIDATES for the separate registration
-verification step, which is NOT run by this workflow.
+Stations classified config_ok are CANDIDATES for the registration
+verification step, which runs right after this script in the same
+workflow (e7/run_verify.py).
 
 Writes e7-results/<YYYY-MM-DD>.json and updates e7/known-domains.json
 (so every daily round probes only domains never probed before).
+Same-date runs accumulate: a second round on the same day merges its
+records into the existing file (deduped by domain) instead of
+overwriting it, so candidates from the earlier round are not lost.
 Records contain structure and status codes only: no email, password,
 token, cookie or subscription-link contents.
 """
@@ -323,6 +327,31 @@ def main():
     }
     os.makedirs(RESULTS_DIR, exist_ok=True)
     out_path = os.path.join(RESULTS_DIR, time.strftime("%Y-%m-%d") + ".json")
+    if os.path.exists(out_path):
+        # Same-day accumulation: merge into the earlier round's file so
+        # its candidates survive (a second round used to overwrite it).
+        try:
+            with open(out_path, encoding="utf-8") as f:
+                old = json.load(f)
+            merged_records = {r["domain"]: r for r in old.get("records", [])}
+            for r in records:
+                merged_records[r["domain"]] = r
+            merged_candidates = list(dict.fromkeys(
+                list(old.get("candidates", [])) + candidates))
+            out = {
+                "date": out["date"],
+                "ts": out["ts"],
+                "elapsed_s": round(old.get("elapsed_s", 0) + out["elapsed_s"], 1),
+                "discovered": old.get("discovered", 0) + len(found),
+                "probed": old.get("probed", 0) + len(records),
+                "config_ok_count": len(merged_candidates),
+                "candidates": merged_candidates,
+                "aborted": bool(old.get("aborted")) or aborted,
+                "records": list(merged_records.values()),
+            }
+            log(f"merged with earlier round today: {len(merged_records)} records total")
+        except Exception as e:
+            log(f"merge with earlier round failed ({type(e).__name__}), overwriting")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
     with open(KNOWN_JSON, "w", encoding="utf-8") as f:
