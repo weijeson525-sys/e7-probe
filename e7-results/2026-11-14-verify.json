@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-14",
+  "verified_at": "2026-11-14T03:45:26Z",
+  "total_candidates": 2,
+  "usable_nodes": 0,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
+  },
+  "sites": [
+    {
+      "domain": "https://yuntong.org",
+      "registered": true,
+      "free_plan": false,
+      "sub_present": true,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "sub_fetch_empty",
+      "duration_s": 2.1
+    },
+    {
+      "domain": "https://交个朋友.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.3
+    }
+  ]
+}
