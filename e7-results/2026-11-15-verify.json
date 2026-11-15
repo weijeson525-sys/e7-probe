@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-15",
+  "verified_at": "2026-11-15T03:24:48Z",
+  "total_candidates": 5,
+  "usable_nodes": 0,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
+  },
+  "sites": [
+    {
+      "domain": "https://anniu.eepzau.org",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.5
+    },
+    {
+      "domain": "https://youzi.win",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.0
+    },
+    {
+      "domain": "https://雷神.co",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.0
+    },
+    {
+      "domain": "https://wwnet.top",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 11.0
+    },
+    {
+      "domain": "https://yingzi01.com",
+      "registered": true,
+      "free_plan": false,
+      "sub_present": true,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "sub_fetch_empty",
+      "duration_s": 6.5
+    }
+  ]
+}
