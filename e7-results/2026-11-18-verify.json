@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-18",
+  "verified_at": "2026-11-18T04:56:27Z",
+  "total_candidates": 4,
+  "usable_nodes": 0,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
+  },
+  "sites": [
+    {
+      "domain": "https://scdn.diy",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.6
+    },
+    {
+      "domain": "https://aapi.xingjimen.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 125.0
+    },
+    {
+      "domain": "https://foxcloud.cc",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 121.5
+    },
+    {
+      "domain": "https://panel.one.net.im",
+      "registered": true,
+      "free_plan": false,
+      "sub_present": true,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "sub_fetch_empty",
+      "duration_s": 15.8
+    }
+  ]
+}
