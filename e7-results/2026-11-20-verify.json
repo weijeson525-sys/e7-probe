@@ -1,0 +1,96 @@
+{
+  "date": "2026-11-20",
+  "verified_at": "2026-11-20T04:33:33Z",
+  "total_candidates": 8,
+  "usable_nodes": 3,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
+  },
+  "sites": [
+    {
+      "domain": "https://gedy.stellarutils.top",
+      "registered": true,
+      "free_plan": false,
+      "sub_present": true,
+      "nodes_total": 7,
+      "nodes_reachable": 3,
+      "reason": "ok",
+      "duration_s": 17.2
+    },
+    {
+      "domain": "https://sub.route.pub",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.9
+    },
+    {
+      "domain": "https://qx.frcloud.online",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.5
+    },
+    {
+      "domain": "https://kuail66.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.4
+    },
+    {
+      "domain": "https://account.starfirewall.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.5
+    },
+    {
+      "domain": "https://singal.mom",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.3
+    },
+    {
+      "domain": "https://vq.wanwan.biz.id",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.9
+    },
+    {
+      "domain": "https://sjc.hief.store",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.8
+    }
+  ]
+}
