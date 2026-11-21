@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-21",
+  "verified_at": "2026-11-21T04:26:19Z",
+  "total_candidates": 2,
+  "usable_nodes": 0,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
+  },
+  "sites": [
+    {
+      "domain": "https://koich.sbs",
+      "registered": true,
+      "free_plan": false,
+      "sub_present": true,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "sub_fetch_empty",
+      "duration_s": 4.2
+    },
+    {
+      "domain": "https://onenet.sbs",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.1
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-21",
+  "ts": "2026-11-21T04:26:14+0000",
+  "elapsed_s": 20.2,
+  "discovered": 4,
+  "probed": 4,
+  "config_ok_count": 2,
+  "candidates": [
+    "https://koich.sbs",
+    "https://onenet.sbs"
+  ],
+  "aborted": false,
+  "records": [
+    {
+      "domain": "https://koich.sbs",
+      "fetch_ok": true,
+      "raw_status": 200,
+      "raw_bytes": 386,
+      "verify": false,
+      "invite": false,
+      "recaptcha": false,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": false,
+      "config_ok": true,
+      "reason": "config_ok",
+      "source": "discovery:telegram"
+    },
+    {
+      "domain": "https://tiantia.xyz",
+      "fetch_ok": false,
+      "raw_status": 404,
+      "raw_bytes": 0,
+      "verify": true,
+      "invite": true,
+      "recaptcha": true,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": true,
+      "config_ok": false,
+      "reason": "config_unreachable",
+      "source": "discovery:telegram"
+    },
+    {
+      "domain": "https://onenet.sbs",
+      "fetch_ok": true,
+      "raw_status": 200,
+      "raw_bytes": 626,
+      "verify": true,
+      "invite": false,
+      "recaptcha": false,
+      "whitelist": [
+        "qq.com",
+        "gmail.com",
+        "163.com"
+      ],
+      "api_prefix": "",
+      "validator_blocked": false,
+      "config_ok": true,
+      "reason": "config_ok",
+      "source": "discovery:telegram"
+    },
+    {
+      "domain": "https://tianticom.xyz",
+      "fetch_ok": false,
+      "raw_status": 404,
+      "raw_bytes": 0,
+      "verify": true,
+      "invite": true,
+      "recaptcha": true,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": true,
+      "config_ok": false,
+      "reason": "config_unreachable",
+      "source": "discovery:telegram"
+    }
+  ]
+}
