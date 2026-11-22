@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-22",
+  "ts": "2026-11-22T03:40:31+0000",
+  "elapsed_s": 12.7,
+  "discovered": 1,
+  "probed": 1,
+  "config_ok_count": 1,
+  "candidates": [
+    "https://p04.weipien.shop"
+  ],
+  "aborted": false,
+  "records": [
+    {
+      "domain": "https://p04.weipien.shop",
+      "fetch_ok": true,
+      "raw_status": 200,
+      "raw_bytes": 256,
+      "verify": true,
+      "invite": false,
+      "recaptcha": false,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": false,
+      "config_ok": true,
+      "reason": "config_ok",
+      "source": "discovery:askahh"
+    }
+  ]
+}
