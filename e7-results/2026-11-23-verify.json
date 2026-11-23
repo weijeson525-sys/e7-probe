@@ -1,0 +1,136 @@
+{
+  "date": "2026-11-23",
+  "verified_at": "2026-11-23T04:17:31Z",
+  "total_candidates": 12,
+  "usable_nodes": 16,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
+  },
+  "sites": [
+    {
+      "domain": "https://oceanastar.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 4.0
+    },
+    {
+      "domain": "https://qifei.kalami.dpdns.org",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.8
+    },
+    {
+      "domain": "https://jl45378.sbs",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.3
+    },
+    {
+      "domain": "https://lovemagiclove.com",
+      "registered": true,
+      "free_plan": false,
+      "sub_present": true,
+      "nodes_total": 16,
+      "nodes_reachable": 15,
+      "reason": "ok",
+      "duration_s": 86.9
+    },
+    {
+      "domain": "https://panel.shunbao.xyz",
+      "registered": true,
+      "free_plan": true,
+      "sub_present": true,
+      "nodes_total": 2,
+      "nodes_reachable": 1,
+      "reason": "ok",
+      "duration_s": 5.7
+    },
+    {
+      "domain": "https://jx-n3v6.jl45378.buzz",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.3
+    },
+    {
+      "domain": "https://jx-k8p4.jl45378.buzz",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.9
+    },
+    {
+      "domain": "https://tmasha.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.6
+    },
+    {
+      "domain": "https://jx-q4w8.jl45378.sbs",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.7
+    },
+    {
+      "domain": "https://xboard.wkings.net",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.7
+    },
+    {
+      "domain": "https://jl45378.buzz",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.3
+    },
+    {
+      "domain": "https://jx-c9h3.jl45378.sbs",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.3
+    }
+  ]
+}
