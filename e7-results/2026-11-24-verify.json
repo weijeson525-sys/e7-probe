@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-24",
+  "verified_at": "2026-11-24T07:14:41Z",
+  "total_candidates": 2,
+  "usable_nodes": 0,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
+  },
+  "sites": [
+    {
+      "domain": "https://dyxf.banmapay.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 1.1
+    },
+    {
+      "domain": "https://panelvera.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 2.8
+    }
+  ]
+}
