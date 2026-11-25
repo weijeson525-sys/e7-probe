@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-25",
+  "verified_at": "2026-11-25T05:47:25Z",
+  "total_candidates": 0,
+  "usable_nodes": 0,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
+  },
+  "sites": []
+}

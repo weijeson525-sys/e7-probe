@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-25",
+  "ts": "2026-11-25T05:47:24+0000",
+  "elapsed_s": 12.9,
+  "discovered": 1,
+  "probed": 1,
+  "config_ok_count": 0,
+  "candidates": [],
+  "aborted": false,
+  "records": [
+    {
+      "domain": "https://hyvvcloud.online",
+      "fetch_ok": true,
+      "raw_status": 200,
+      "raw_bytes": 693,
+      "verify": true,
+      "invite": false,
+      "recaptcha": true,
+      "whitelist": [
+        "gmail.com",
+        "qq.com",
+        "163.com",
+        "yahoo.com",
+        "sina.com",
+        "126.com",
+        "outlook.com",
+        "yeah.net",
+        "foxmail.com",
+        "kurumi.casa"
+      ],
+      "api_prefix": "",
+      "validator_blocked": true,
+      "config_ok": false,
+      "reason": "recaptcha",
+      "source": "discovery:telegram"
+    }
+  ]
+}
