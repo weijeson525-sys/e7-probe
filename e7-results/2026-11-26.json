@@ -1,0 +1,120 @@
+{
+  "date": "2026-11-26",
+  "ts": "2026-11-26T05:38:41+0000",
+  "elapsed_s": 29.2,
+  "discovered": 6,
+  "probed": 6,
+  "config_ok_count": 3,
+  "candidates": [
+    "https://spiderapp.cc",
+    "https://go.spiderapp.cc",
+    "https://chengtu.vip"
+  ],
+  "aborted": false,
+  "records": [
+    {
+      "domain": "https://wuya.me",
+      "fetch_ok": false,
+      "raw_status": 200,
+      "raw_bytes": 2840,
+      "verify": true,
+      "invite": true,
+      "recaptcha": true,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": true,
+      "config_ok": false,
+      "reason": "config_not_json",
+      "source": "discovery:telegram"
+    },
+    {
+      "domain": "https://spiderapp.cc",
+      "fetch_ok": true,
+      "raw_status": 200,
+      "raw_bytes": 823,
+      "verify": true,
+      "invite": false,
+      "recaptcha": false,
+      "whitelist": [
+        "gmail.com",
+        "qq.com",
+        "163.com",
+        "yahoo.com",
+        "sina.com",
+        "126.com"
+      ],
+      "api_prefix": "",
+      "validator_blocked": false,
+      "config_ok": true,
+      "reason": "config_ok",
+      "source": "discovery:telegram"
+    },
+    {
+      "domain": "https://go.spiderapp.cc",
+      "fetch_ok": true,
+      "raw_status": 200,
+      "raw_bytes": 823,
+      "verify": true,
+      "invite": false,
+      "recaptcha": false,
+      "whitelist": [
+        "gmail.com",
+        "qq.com",
+        "163.com",
+        "yahoo.com",
+        "sina.com",
+        "126.com"
+      ],
+      "api_prefix": "",
+      "validator_blocked": false,
+      "config_ok": true,
+      "reason": "config_ok",
+      "source": "discovery:telegram"
+    },
+    {
+      "domain": "https://v2user.lzcoo.com",
+      "fetch_ok": false,
+      "raw_status": 200,
+      "raw_bytes": 709,
+      "verify": true,
+      "invite": true,
+      "recaptcha": true,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": true,
+      "config_ok": false,
+      "reason": "config_not_json",
+      "source": "discovery:telegram"
+    },
+    {
+      "domain": "https://jz.bzjysj.club",
+      "fetch_ok": true,
+      "raw_status": 200,
+      "raw_bytes": 489,
+      "verify": false,
+      "invite": true,
+      "recaptcha": false,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": true,
+      "config_ok": false,
+      "reason": "invite_force",
+      "source": "discovery:telegram"
+    },
+    {
+      "domain": "https://chengtu.vip",
+      "fetch_ok": true,
+      "raw_status": 200,
+      "raw_bytes": 861,
+      "verify": false,
+      "invite": false,
+      "recaptcha": false,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": false,
+      "config_ok": true,
+      "reason": "config_ok",
+      "source": "discovery:telegram"
+    }
+  ]
+}
