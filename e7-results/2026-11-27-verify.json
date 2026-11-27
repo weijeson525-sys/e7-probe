@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-27",
+  "verified_at": "2026-11-27T05:32:04Z",
+  "total_candidates": 5,
+  "usable_nodes": 0,
+  "emailnator_diag": {
+    "reachable": true,
+    "status": 200,
+    "error": null,
+    "set_cookie_count": 0,
+    "xsrf_in_headers": false,
+    "challenge_markers": []
+  },
+  "sites": [
+    {
+      "domain": "https://序列机场.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.1
+    },
+    {
+      "domain": "https://xn--1br08j38gwtj.com",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.2
+    },
+    {
+      "domain": "https://vpn38.gn0.cc",
+      "registered": false,
+      "free_plan": null,
+      "sub_present": false,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "register_failed",
+      "duration_s": 0.7
+    },
+    {
+      "domain": "https://panel.rusboost.com",
+      "registered": true,
+      "free_plan": false,
+      "sub_present": true,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "sub_fetch_empty",
+      "duration_s": 3.0
+    },
+    {
+      "domain": "https://s.yyzs.de",
+      "registered": true,
+      "free_plan": false,
+      "sub_present": true,
+      "nodes_total": 0,
+      "nodes_reachable": 0,
+      "reason": "sub_fetch_empty",
+      "duration_s": 2.8
+    }
+  ]
+}
