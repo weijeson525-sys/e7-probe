@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-28",
+  "ts": "2026-11-28T05:08:02+0000",
+  "elapsed_s": 18.3,
+  "discovered": 2,
+  "probed": 2,
+  "config_ok_count": 0,
+  "candidates": [],
+  "aborted": false,
+  "records": [
+    {
+      "domain": "https://茶艺云.net",
+      "fetch_ok": false,
+      "raw_status": 0,
+      "raw_bytes": 0,
+      "verify": true,
+      "invite": true,
+      "recaptcha": true,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": true,
+      "config_ok": false,
+      "reason": "config_unreachable",
+      "source": "discovery:ygpy"
+    },
+    {
+      "domain": "https://socks55.com",
+      "fetch_ok": false,
+      "raw_status": 200,
+      "raw_bytes": 37084,
+      "verify": true,
+      "invite": true,
+      "recaptcha": true,
+      "whitelist": [],
+      "api_prefix": "",
+      "validator_blocked": true,
+      "config_ok": false,
+      "reason": "config_not_json",
+      "source": "discovery:telegram"
+    }
+  ]
+}
